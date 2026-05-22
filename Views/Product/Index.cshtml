@@ -1,0 +1,45 @@
+﻿@model IEnumerable<WebsiteBanHang.Models.Product>
+
+@{
+    ViewData["Title"] = "Danh sách sản phẩm";
+}
+
+<div class="mb-4">
+    <a asp-action="Add" class="btn btn-primary">+ Thêm Sản Phẩm Mới</a>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach (var product in Model)
+    {
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0">
+                <a asp-action="Display" asp-route-id="@product.Id">
+                    @if (!string.IsNullOrEmpty(product.ImageUrl))
+                    {
+                        <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name" style="height: 200px; object-fit: cover;" />
+                    }
+                    else
+                    {
+                        <img src="~/images/laptop.jpg" class="card-img-top" alt="Sản phẩm" />
+                    }
+                </a>
+
+                <div class="card-body text-center">
+                    <a asp-action="Display" asp-route-id="@product.Id" class="text-decoration-none text-dark">
+                        <h5 class="card-title fw-bold">@product.Name</h5>
+                    </a>
+
+                    <p class="card-text text-muted" style="height: 48px; overflow: hidden;">@product.Description</p>
+                    <p class="card-text text-danger fw-bold">Giá: $@product.Price</p>
+
+                    <a asp-action="Display" asp-route-id="@product.Id" class="btn btn-success btn-sm">Mua Ngay</a>
+
+                    <div class="mt-2">
+                        <a asp-action="Update" asp-route-id="@product.Id" class="btn btn-warning btn-sm">Sửa</a>
+                        <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger btn-sm">Xóa</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

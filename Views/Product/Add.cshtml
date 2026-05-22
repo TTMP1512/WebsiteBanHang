@@ -1,0 +1,46 @@
+﻿@model WebsiteBanHang.Models.Product
+
+@{
+    ViewData["Title"] = "Add Product";
+}
+
+<h2>Add Product</h2>
+
+<form asp-action="Add" enctype="multipart/form-data" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CategoryId">Category</label>
+        <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control"></select>
+    </div>
+
+    <div class="form-group">
+        <label>Product Image (Ảnh đại diện)</label>
+        <input type="file" name="imageUrl" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Additional Images (Ảnh kèm theo)</label>
+        <input type="file" name="imageUrls" class="form-control" multiple />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Add</button>
+</form>

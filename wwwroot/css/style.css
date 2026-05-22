@@ -1,0 +1,168 @@
+﻿/* 1. Nền tổng thể của trang web */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212 !important; /* Dùng !important để ép màu */
+    color: #ffffff !important;
+    display: grid;
+    grid-template-columns: 25% 75%; /* Chia lại tỉ lệ cột cho cân đối hơn */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 2. Thẻ sản phẩm */
+.product-card {
+    background-color: #1e1e1e !important;
+    color: #ffffff;
+    border: 1px solid #333 !important;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    color: #ffffff !important;
+}
+
+    /* 3. Chỉnh màu chữ tiêu đề và mô tả trong card */
+    .product-card h2,
+    .product-card p {
+        color: #ffffff !importantS;
+    }
+
+/* 4. Chỉnh Sidebar (Sidebar vẫn giữ màu xanh nhưng cần chỉnh chữ thành trắng) */
+.sidebar {
+    background-color: #199cff;
+    color: #ffffff;
+    padding: 20px;
+    grid-column: 1; /* Nếu bạn muốn sidebar bên trái */
+}
+
+    /* 5. Đảm bảo các link trong sidebar và footer cũng trắng */
+    .sidebar a, .footer a {
+        color: #ffffff !important;
+    }
+
+/* 6. Header và Footer (Có thể để nguyên hoặc chỉnh sang đen tùy ý) */
+header {
+    background-color: #000000; /* Header đen */
+    color: #ffffff;
+}
+
+.footer {
+    background-color: #000000; /* Footer đen */
+    color: #ffffff;
+}
+/* Nền tổng thể và chữ */
+:root {
+    --bg: #000000;
+    --panel: #111111;
+    --muted: #bdbdbd;
+    --accent: #199cff;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --border: #222222;
+}
+
+html, body {
+    background-color: var(--bg) !important;
+    color: #ffffff !important;
+    font-family: Arial, sans-serif;
+}
+
+/* Container chính */
+.container, .main, .content {
+    background-color: transparent !important;
+}
+
+/* Card sản phẩm, footer, sidebar panels */
+.product-card, .card, .footer, .sidebar, .widget {
+    background-color: var(--panel) !important;
+    color: #ffffff !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: none;
+}
+
+/* Tiêu đề và mô tả */
+h1, h2, h3, h4, h5, h6 {
+    color: #ffffff !important;
+}
+
+p, span, li {
+    color: var(--muted) !important;
+}
+
+/* Links */
+a, .nav a {
+    color: var(--accent) !important;
+    text-decoration: none;
+}
+
+    a:hover, .nav a:hover {
+        color: #ffffff !important;
+        text-decoration: underline;
+    }
+
+/* Buttons */
+.btn, button {
+    background-color: #222 !important;
+    color: #fff !important;
+    border: 1px solid var(--border) !important;
+}
+
+.btn-primary {
+    background-color: var(--accent) !important;
+    border-color: #0f7ad6 !important;
+}
+
+.btn-success {
+    background-color: var(--success) !important;
+    border-color: #1f7a34 !important;
+}
+
+.btn-warning {
+    background-color: var(--warning) !important;
+    color: #000 !important;
+}
+
+.btn-danger {
+    background-color: var(--danger) !important;
+}
+
+/* Hover states cho button */
+.btn:hover, button:hover {
+    filter: brightness(1.05);
+}
+
+/* Hình ảnh trong card: viền sáng để nổi bật trên nền tối */
+.product-card img {
+    border: 1px solid #2a2a2a;
+    background-color: #000;
+}
+
+/* Bảng, input, form */
+input, textarea, select {
+    background-color: #0f0f0f !important;
+    color: #fff !important;
+    border: 1px solid var(--border) !important;
+}
+
+/* Bảng phân chia cột, đường kẻ */
+hr, .divider {
+    border-color: #222 !important;
+}
+
+/* Đảm bảo footer link trắng */
+.footer, .footer a {
+    color: #ffffff !important;
+}
+
+/* Responsive: nếu dùng grid, giữ tỉ lệ hợp lý */
+@media (max-width: 768px) {
+    body {
+        grid-template-columns: 1fr !important;
+    }
+
+    .sidebar {
+        grid-column: auto !important;
+    }
+}
+
