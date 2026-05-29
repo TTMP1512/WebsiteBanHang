@@ -1,48 +1,15 @@
 ﻿@model WebsiteBanHang.Models.Product
 
-@{
-    ViewData["Title"] = "Chi tiết sản phẩm";
-}
+<h2>@Model.Name</h2>
 
-<div class="card shadow-sm border-0 mt-3">
-    <div class="row g-0">
-        <div class="col-md-6">
-            @if (!string.IsNullOrEmpty(Model.ImageUrl))
-            {
-                <img src="@Model.ImageUrl" class="img-fluid rounded-start w-100" style="object-fit: cover; max-height: 500px;" alt="@Model.Name" />
-            }
-            else
-            {
-                <img src="https://picsum.photos/id/1060/600/400" class="img-fluid rounded-start w-100" style="object-fit: cover;" alt="Default Image" />
-            }
-        </div>
+<div>
+    <h3>Price: @Model.Price</h3>
+    <p>@Model.Description</p>
 
-        <div class="col-md-6">
-            <div class="card-body p-4">
-                <h2 class="card-title fw-bold text-success">@Model.Name</h2>
-                <h4 class="text-danger fw-bold mt-3">Giá: $@Model.Price</h4>
-
-                <hr />
-
-                <h5>Mô tả chi tiết:</h5>
-                <p class="card-text fs-5">@Model.Description</p>
-
-                @if (Model.ImageUrls != null && Model.ImageUrls.Any())
-                {
-                    <h5 class="mt-4 mb-3">Hình ảnh khác:</h5>
-                    <div class="d-flex flex-wrap gap-2">
-                        @foreach (var url in Model.ImageUrls)
-                        {
-                            <img src="@url" class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;" alt="Additional Image" />
-                        }
-                    </div>
-                }
-
-                <div class="mt-5">
-                    <a href="#" class="btn btn-primary btn-lg px-4 me-2">Thêm vào giỏ hàng</a>
-                    <a asp-action="Index" class="btn btn-secondary btn-lg px-4">Quay lại</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+    {
+        <img src="@Model.ImageUrl" alt="Product Image" style="max-width: 200px;" />
+    }
 </div>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Back to List</a>

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WebsiteBanHang.Models
 {
@@ -15,10 +14,11 @@ namespace WebsiteBanHang.Models
 
         public string Description { get; set; }
 
-        public int CategoryId { get; set; }
-
-        // Đón đầu các thuộc tính cho tính năng Upload Hình ảnh
         public string? ImageUrl { get; set; }
-        public List<string>? ImageUrls { get; set; }
+
+        public List<ProductImage>? Images { get; set; }
+
+        public int CategoryId { get; set; }
+        public Category? Category { get; set; }
     }
 }

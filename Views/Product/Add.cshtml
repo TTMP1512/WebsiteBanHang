@@ -1,14 +1,12 @@
 ﻿@model WebsiteBanHang.Models.Product
-
+@using Microsoft.AspNetCore.Mvc.Rendering
 @{
     ViewData["Title"] = "Add Product";
 }
 
 <h2>Add Product</h2>
 
-<form asp-action="Add" enctype="multipart/form-data" method="post">
-    <div asp-validation-summary="All" class="text-danger"></div>
-
+<form asp-action="Add" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label asp-for="Name"></label>
         <input asp-for="Name" class="form-control" />
@@ -33,13 +31,8 @@
     </div>
 
     <div class="form-group">
-        <label>Product Image (Ảnh đại diện)</label>
-        <input type="file" name="imageUrl" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Additional Images (Ảnh kèm theo)</label>
-        <input type="file" name="imageUrls" class="form-control" multiple />
+        <label asp-for="ImageUrl">Product Image</label>
+        <input type="file" asp-for="ImageUrl" class="form-control" />
     </div>
 
     <button type="submit" class="btn btn-primary mt-3">Add</button>

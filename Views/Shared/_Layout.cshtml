@@ -1,74 +1,72 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Website Bán Hàng</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>@ViewData["Title"] - WebsiteBanHang</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebsiteBanHang.styles.css" asp-append-version="true" />
 </head>
-<body>
-    <header class="bg-success text-white text-center py-4">
-        <h1>Trang Web Bán Hàng</h1>
-    </header>
-
-    <nav class="navbar navbar-expand-lg navbar-dark bg-warning">
-        <div class="container">
-            <a class="navbar-brand" asp-controller="Product" asp-action="Index">Trang Chủ</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Product" asp-action="Index">Sản Phẩm</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Liên Hệ</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-9">
-                @RenderBody()
-            </div>
-
-            <div class="col-md-3">
-                <div class="bg-primary text-white p-3 rounded">
-                    <h5>Social Media</h5>
-                    <ul class="list-unstyled mb-0">
-                        <li><a href="#" class="text-white text-decoration-none">Facebook</a></li>
-                        <li><a href="#" class="text-white text-decoration-none">Twitter</a></li>
-                        <li><a href="#" class="text-white text-decoration-none">Instagram</a></li>
-                        <li><a href="#" class="text-white text-decoration-none">LinkedIn</a></li>
+<body class="bg-dark text-light d-flex flex-column min-vh-100">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-black border-bottom border-secondary box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold text-success" asp-area="" asp-controller="Home" asp-action="Index">Trang Web Bán Hàng</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Trang Chủ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-warning fw-bold" asp-area="" asp-controller="Product" asp-action="Index">Quản Lý (Admin)</a>
+                        </li>
                     </ul>
                 </div>
             </div>
-        </div>
+        </nav>
+    </header>
+
+    <div class="container flex-grow-1">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
     </div>
 
-    <div class="container mt-4 mb-4">
-        <div class="row bg-dark text-white text-center py-4 rounded">
-            <div class="col-md-4">
-                <h3>Cột 1</h3>
-                <p>Nội dung cột 1.</p>
+    <footer class="border-top border-secondary footer text-muted mt-auto" style="background-color: #111111;">
+        <div class="container pb-3 pt-4">
+            <div class="row text-light">
+                <div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
+                    <h5 class="text-success fw-bold mb-3">📍 Liên Hệ</h5>
+                    <p class="text-secondary mb-1" style="font-size: 0.95rem;">Địa chỉ: 475A Điện Biên Phủ, P.25, Q.Bình Thạnh, TP.HCM</p>
+                    <p class="text-secondary mb-1" style="font-size: 0.95rem;">Hotline: 0123.456.789</p>
+                    <p class="text-secondary mb-1" style="font-size: 0.95rem;">Email: cskh@websitebanhang.com</p>
+                </div>
+                <div class="col-md-4 text-center mb-3 mb-md-0">
+                    <h5 class="text-success fw-bold mb-3">🛡️ Chính Sách</h5>
+                    <p class="text-secondary mb-1" style="font-size: 0.95rem;">Bảo hành chính hãng 12 tháng</p>
+                    <p class="text-secondary mb-1" style="font-size: 0.95rem;">Đổi trả miễn phí trong 7 ngày đầu</p>
+                    <p class="text-secondary mb-1" style="font-size: 0.95rem;">Giao hàng siêu tốc toàn quốc</p>
+                </div>
+                <div class="col-md-4 text-center text-md-end">
+                    <h5 class="text-success fw-bold mb-3">💻 Về Chúng Tôi</h5>
+                    <p class="text-secondary mb-1" style="font-size: 0.95rem;">Hi-End Laptop & PC Store</p>
+                    <p class="text-secondary mb-1" style="font-size: 0.95rem;">Chuyên cung cấp các dòng máy tính xách tay cao cấp, linh kiện phần cứng công nghệ và giải pháp tối ưu hệ thống.</p>
+                </div>
             </div>
-            <div class="col-md-4">
-                <h3>Cột 2</h3>
-                <p>Nội dung cột 2.</p>
-            </div>
-            <div class="col-md-4">
-                <h3>Cột 3</h3>
-                <p>Nội dung cột 3.</p>
+            <div class="text-center text-secondary border-top border-secondary pt-3 mt-3" style="font-size: 0.85rem;">
+                &copy; 2026 - WebsiteBanHang - Đồ án Phát triển Ứng dụng Web (Lab 03)
             </div>
         </div>
-    </div>
+    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

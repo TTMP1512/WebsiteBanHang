@@ -1,12 +1,12 @@
 ﻿@model WebsiteBanHang.Models.Product
-
+@using Microsoft.AspNetCore.Mvc.Rendering
 @{
-    ViewData["Title"] = "Update Product";
+    ViewData["Title"] = "Edit Product";
 }
 
 <h2>Edit Product</h2>
 
-<form asp-action="Update" method="post">
+<form asp-action="Update" method="post" enctype="multipart/form-data">
     <input type="hidden" asp-for="Id" />
 
     <div class="form-group">
@@ -29,8 +29,31 @@
 
     <div class="form-group">
         <label asp-for="CategoryId">Category</label>
-        <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control"></select>
+        <select asp-for="CategoryId" asp-items="@ViewBag.Categories" class="form-control"></select>
     </div>
 
-    <button type="submit" class="btn btn-warning mt-3">Update</button>
+    <div class="form-group">
+        <label asp-for="ImageUrl">Product Image</label>
+        <input type="file" name="imageUrl" class="form-control" id="imageInput" />
+    </div>
+
+    <div class="col-8 mt-2 mb-3">
+        <img src="@Model.ImageUrl" alt="Product Image" style="max-width:200px;" id="previewImage" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
+
+<script>
+    document.getElementById('imageInput').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('previewImage').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>

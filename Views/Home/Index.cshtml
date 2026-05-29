@@ -1,8 +1,74 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<WebsiteBanHang.Models.Product>
+
+@{
+    ViewData["Title"] = "Trang Chủ";
+    var categories = ViewBag.Categories as IEnumerable<WebsiteBanHang.Models.Category>;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center mb-4 mt-3">
+    <h2 class="fw-bold text-success">Khám Phá Cửa Hàng</h2>
 </div>
+
+<div class="row">
+    <div class="col-md-3 mb-4">
+        <div class="list-group shadow-sm sticky-top" style="top: 20px;">
+            <div class="list-group-item bg-black text-white fw-bold border-secondary text-center">
+                DANH MỤC SẢN PHẨM
+            </div>
+            <a asp-controller="Home" asp-action="Index" asp-route-categoryId="" class="list-group-item list-group-item-action bg-dark text-light border-secondary">
+                🌟 Tất Cả Sản Phẩm
+            </a>
+            @if (categories != null)
+            {
+                foreach (var cat in categories)
+                {
+                    <a asp-controller="Home" asp-action="Index" asp-route-categoryId="@cat.Id" class="list-group-item list-group-item-action bg-dark text-light border-secondary">
+                        🔹 @cat.Name
+                    </a>
+                }
+            }
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+            @if (!Model.Any())
+            {
+                <div class="col-12 text-center mt-5">
+                    <h5 class="text-muted">Chưa có sản phẩm nào trong danh mục này.</h5>
+                </div>
+            }
+            @foreach (var product in Model)
+            {
+                <div class="col">
+                    <div class="card h-100 bg-dark border-secondary shadow-sm card-hover">
+                        @if (!string.IsNullOrEmpty(product.ImageUrl))
+                        {
+                            <img src="@product.ImageUrl" class="card-img-top p-2" alt="@product.Name" style="height: 200px; object-fit: cover;">
+                        }
+
+                        <div class="card-body text-center d-flex flex-column text-light">
+                            <h5 class="card-title text-white fw-bold text-truncate" title="@product.Name">@product.Name</h5>
+                            <h5 class="card-text text-warning fw-bold mb-3 mt-auto">@product.Price.ToString("#,##0.00") $</h5>
+                        </div>
+
+                        <div class="card-footer bg-transparent border-top border-secondary text-center pt-3 pb-3">
+                            <a asp-controller="Product" asp-action="Display" asp-route-id="@product.Id" class="btn btn-outline-info w-100 fw-bold">Xem Chi Tiết</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .card-hover {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,255,0,0.1) !important;
+        }
+</style>

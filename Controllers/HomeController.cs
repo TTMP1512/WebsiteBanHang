@@ -1,21 +1,36 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebsiteBanHang.Models;
+using WebsiteBanHang.Repositories;
 
 namespace WebsiteBanHang.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IProductRepository _productRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IProductRepository productRepository, ICategoryRepository categoryRepository)
         {
-            _logger = logger;
+            _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
         }
 
-        public IActionResult Index()
+        // Hàm này sẽ nhận ID của Danh mục khi khách hàng bấm vào Menu bên trái
+        public async Task<IActionResult> Index(int? categoryId)
         {
-            return View();
+            var products = await _productRepository.GetAllAsync();
+            var categories = await _categoryRepository.GetAllAsync();
+
+            ViewBag.Categories = categories; // Gửi danh sách 6 Danh mục sang giao diện
+
+            // Lọc sản phẩm: Nếu khách bấm vào "Laptop", chỉ hiện các máy tính Laptop
+            if (categoryId != null)
+            {
+                products = products.Where(p => p.CategoryId == categoryId);
+            }
+
+            return View(products);
         }
 
         public IActionResult Privacy()
