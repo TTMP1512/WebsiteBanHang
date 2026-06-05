@@ -1,22 +1,31 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using WebsiteBanHang.Models;
+using WebsiteBanHang.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Đăng ký DbContext (Cấu hình kết nối SQL Server)
+// Cấu hình CSDL
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// 2. Đăng ký Repository (Tạm thời vẫn giữ Mock Data, lát nữa tạo xong EF Repository ta sẽ sửa chỗ này sau)
-builder.Services.AddScoped<WebsiteBanHang.Repositories.IProductRepository, WebsiteBanHang.Repositories.EFProductRepository>();
-builder.Services.AddScoped<WebsiteBanHang.Repositories.ICategoryRepository, WebsiteBanHang.Repositories.EFCategoryRepository>();
+// Cấu hình Identity chuẩn Bài 4 (Có phân quyền IdentityRole)
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddDefaultTokenProviders()
+    .AddDefaultUI()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
-// Add services to the container.
+// Khai báo sử dụng Razor Pages (Dành cho các trang Đăng nhập/Đăng ký)
+builder.Services.AddRazorPages();
+
 builder.Services.AddControllersWithViews();
+
+// Khai báo kho chứa (Repositories)
+builder.Services.AddScoped<IProductRepository, EFProductRepository>();
+builder.Services.AddScoped<ICategoryRepository, EFCategoryRepository>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -25,10 +34,15 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// 2 Dòng bắt buộc phải có để kích hoạt hệ thống Đăng nhập / Bảo mật
+app.UseAuthentication();
 app.UseAuthorization();
+
+// Bắt buộc để ánh xạ các trang Identity lên trình duyệt
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Product}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

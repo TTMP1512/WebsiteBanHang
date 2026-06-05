@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebsiteBanHang.Models
 {
-    public class ApplicationDbContext : DbContext
+    // Đã đổi thành IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -14,9 +16,10 @@ namespace WebsiteBanHang.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
             base.OnModelCreating(modelBuilder);
 
-            // Tự động tạo 6 Danh Mục chuẩn vào Cơ sở dữ liệu
+            // Giữ lại 6 Danh mục mẫu của bạn từ Bài 3
             modelBuilder.Entity<Category>().HasData(
                 new Category { Id = 1, Name = "Laptop" },
                 new Category { Id = 2, Name = "PC" },
