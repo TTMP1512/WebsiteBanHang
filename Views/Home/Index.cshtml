@@ -55,6 +55,9 @@
                         <div class="card-footer bg-transparent border-top border-secondary text-center pt-3 pb-3">
                             <a asp-controller="Product" asp-action="Display" asp-route-id="@product.Id" class="btn btn-outline-info w-100 fw-bold">Xem Chi Tiết</a>
                         </div>
+                        <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@product.Id" class="btn btn-success mt-2">
+                            <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                        </a>
                     </div>
                 </div>
             }

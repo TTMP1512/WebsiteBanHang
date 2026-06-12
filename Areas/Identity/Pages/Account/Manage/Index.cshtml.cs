@@ -1,15 +1,14 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
+﻿#nullable disable
 
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Encodings.Web;
+using System.IO;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using WebsiteBanHang.Models;
+using WebsiteBanHang.Models; // Gọi ApplicationUser
 
 namespace WebsiteBanHang.Areas.Identity.Pages.Account.Manage
 {
@@ -26,45 +25,27 @@ namespace WebsiteBanHang.Areas.Identity.Pages.Account.Manage
             _signInManager = signInManager;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public string Username { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [TempData]
         public string StatusMessage { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Số điện thoại")]
+            public string PhoneNumber { get; set; }
+
+            // Đã thêm: FullName và AvatarFile
+            [Required(ErrorMessage = "Vui lòng nhập Họ Tên")]
             [Display(Name = "Họ và Tên")]
             public string FullName { get; set; }
 
             [Display(Name = "Ảnh đại diện")]
-            public IFormFile? AvatarFile { get; set; } // Dùng để upload file
-        }
-        public string PhoneNumber { get; set; }
+            public IFormFile AvatarFile { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -74,9 +55,11 @@ namespace WebsiteBanHang.Areas.Identity.Pages.Account.Manage
 
             Username = userName;
 
+            // Load dữ liệu lên Form
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                FullName = user.FullName
             };
         }
 
@@ -112,13 +95,33 @@ namespace WebsiteBanHang.Areas.Identity.Pages.Account.Manage
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
+                    StatusMessage = "Lỗi khi cập nhật số điện thoại.";
                     return RedirectToPage();
                 }
             }
 
+            // Cập nhật Họ Tên
+            if (Input.FullName != user.FullName)
+            {
+                user.FullName = Input.FullName;
+                await _userManager.UpdateAsync(user);
+            }
+
+            // Cập nhật Ảnh Đại Diện
+            if (Input.AvatarFile != null)
+            {
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(Input.AvatarFile.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await Input.AvatarFile.CopyToAsync(stream);
+                }
+                user.AvatarUrl = "/images/" + fileName;
+                await _userManager.UpdateAsync(user);
+            }
+
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Hồ sơ của bạn đã được cập nhật thành công.";
             return RedirectToPage();
         }
     }

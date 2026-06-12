@@ -3,20 +3,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebsiteBanHang.Models
 {
-    // Đã đổi thành IdentityDbContext<ApplicationUser>
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
 
+        // --- CÁC DBSET CŨ CỦA BẠN ---
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
 
+        // --- CÁC DBSET MỚI VỪA THÊM (BƯỚC 1.3) ---
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
             base.OnModelCreating(modelBuilder);
 
             // Giữ lại 6 Danh mục mẫu của bạn từ Bài 3

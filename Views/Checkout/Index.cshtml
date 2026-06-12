@@ -1,0 +1,99 @@
+﻿@model WebsiteBanHang.Models.Order
+@{
+    ViewData["Title"] = "Thanh Toán Hóa Đơn";
+    var cart = ViewBag.Cart as List<WebsiteBanHang.Models.CartItem>;
+    decimal grandTotal = cart.Sum(x => x.Total);
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-primary"><i class="bi bi-credit-card-2-front"></i> Thông tin thanh toán</h2>
+
+    <form method="post" asp-action="Index">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-dark text-white fw-bold">
+                        1. ĐỊA CHỈ NHẬN HÀNG
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="Name" class="form-label fw-bold"></label>
+                                <input asp-for="Name" class="form-control" placeholder="Tên người nhận..." />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="PhoneNumber" class="form-label fw-bold"></label>
+                                <input asp-for="PhoneNumber" class="form-control" placeholder="Số điện thoại..." />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="StreetAddress" class="form-label fw-bold"></label>
+                            <input asp-for="StreetAddress" class="form-control" placeholder="Số nhà, tên đường..." />
+                            <span asp-validation-for="StreetAddress" class="text-danger"></span>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label asp-for="City" class="form-label fw-bold"></label>
+                                <input asp-for="City" class="form-control" placeholder="VD: TP. HCM" />
+                                <span asp-validation-for="City" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="District" class="form-label fw-bold"></label>
+                                <input asp-for="District" class="form-control" placeholder="VD: Quận 1" />
+                                <span asp-validation-for="District" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="Ward" class="form-label fw-bold"></label>
+                                <input asp-for="Ward" class="form-control" placeholder="VD: Phường Bến Nghé" />
+                                <span asp-validation-for="Ward" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-success text-white fw-bold">
+                        2. TÓM TẮT ĐƠN HÀNG
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group mb-3">
+                            @foreach (var item in cart)
+                            {
+                                <li class="list-group-item d-flex justify-content-between lh-sm">
+                                    <div>
+                                        <h6 class="my-0">@item.ProductName</h6>
+                                        <small class="text-muted">SL: @item.Quantity x @item.Price.ToString("#,##0") đ</small>
+                                    </div>
+                                    <span class="text-muted fw-bold">@item.Total.ToString("#,##0") đ</span>
+                                </li>
+                            }
+                            <li class="list-group-item d-flex justify-content-between bg-light">
+                                <div class="text-success">
+                                    <h6 class="my-0">Phí vận chuyển</h6>
+                                    <small>Giao hàng tiêu chuẩn</small>
+                                </div>
+                                <span class="text-success">Miễn phí</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between text-danger fs-5">
+                                <span>TỔNG CỘNG (VNĐ)</span>
+                                <strong>@grandTotal.ToString("#,##0") đ</strong>
+                            </li>
+                        </ul>
+
+                        <button type="submit" class="w-100 btn btn-danger btn-lg fw-bold shadow-sm">XÁC NHẬN ĐẶT HÀNG</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

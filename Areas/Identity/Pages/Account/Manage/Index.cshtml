@@ -1,29 +1,50 @@
 ﻿@page
 @model IndexModel
+@using Microsoft.AspNetCore.Identity
+@using WebsiteBanHang.Models
+@inject UserManager<ApplicationUser> UserManager
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = "Hồ sơ của bạn";
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 
-<h3>@ViewData["Title"]</h3>
+<h3 class="text-primary mb-4">@ViewData["Title"]</h3>
 <partial name="_StatusMessage" for="StatusMessage" />
-<div class="row">
-    <div class="col-md-6">
-        <form id="profile-form" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled />
-                <label asp-for="Username" class="form-label"></label>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
-                <label asp-for="Input.PhoneNumber" class="form-label"></label>
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-            </div>
-            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
-        </form>
+
+<form id="profile-form" method="post" enctype="multipart/form-data" class="row shadow-sm p-4 bg-light rounded text-dark">
+    <div class="col-md-4 text-center mb-3">
+        @{
+            var user = await UserManager.GetUserAsync(User);
+            var avatar = string.IsNullOrEmpty(user?.AvatarUrl) ? "/images/default-avatar.png" : user.AvatarUrl;
+        }
+        <img src="@avatar" class="img-fluid rounded-circle border border-3 border-primary mb-3" style="width: 200px; height: 200px; object-fit: cover;" />
+
+        <div class="form-group mt-2">
+            <label asp-for="Input.AvatarFile" class="form-label fw-bold"></label>
+            <input asp-for="Input.AvatarFile" class="form-control" type="file" accept="image/*" />
+            <span asp-validation-for="Input.AvatarFile" class="text-danger"></span>
+        </div>
     </div>
-</div>
+
+    <div class="col-md-8">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-floating mb-3">
+            <input asp-for="Username" class="form-control" disabled />
+            <label asp-for="Username" class="form-label">Tên đăng nhập (Email)</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input asp-for="Input.FullName" class="form-control" />
+            <label asp-for="Input.FullName" class="form-label"></label>
+            <span asp-validation-for="Input.FullName" class="text-danger"></span>
+        </div>
+        <div class="form-floating mb-3">
+            <input asp-for="Input.PhoneNumber" class="form-control" />
+            <label asp-for="Input.PhoneNumber" class="form-label"></label>
+            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+        </div>
+        <button id="update-profile-button" type="submit" class="btn btn-lg btn-success w-100">Lưu thay đổi</button>
+    </div>
+</form>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

@@ -19,6 +19,13 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 builder.Services.AddRazorPages();
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Giỏ hàng sẽ lưu trong 30 phút
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 // Khai báo kho chứa (Repositories)
 builder.Services.AddScoped<IProductRepository, EFProductRepository>();
@@ -33,6 +40,7 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseSession();
 
 // 2 Dòng bắt buộc phải có để kích hoạt hệ thống Đăng nhập / Bảo mật
 app.UseAuthentication();
